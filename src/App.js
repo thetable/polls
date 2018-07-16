@@ -1,22 +1,31 @@
-import React, { Component } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import logo from "./logo.svg";
 import "./App.css";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+const Polls = () => (
+  <Router>
+    <div>
+      <ul>
+        <li>
+          <Link to="/">All Questions</Link>
+        </li>
+      </ul>
 
-export default App;
+      <hr />
+
+      <Route exact path="/" component={Questions} />
+      <Route path={`/questions/:questionId`} component={Question} />
+    </div>
+  </Router>
+);
+
+const Questions = () => <h1>Questions</h1>;
+
+const Question = ({ match }) => (
+  <div>
+    <h1>Questions Detail</h1>
+    <h3>{match.params.questionId}</h3>
+  </div>
+);
+
+export default Polls;
