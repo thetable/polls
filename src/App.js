@@ -1,5 +1,6 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import './App.css';
 
 const Polls = () => (
   <Router>
@@ -25,7 +26,7 @@ class Questions extends React.Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    fetch("https://polls.apiblueprint.org/questions")
+    fetch('https://polls.apiblueprint.org/questions')
       .then(response => {
         return response.json();
       })
@@ -41,32 +42,43 @@ class Questions extends React.Component {
   render() {
     const { questions } = this.state;
     return questions ? (
-      questions.map((question, index) => (
-        <QuestionLink question={question} key={index} />
-      ))
+      <div className="questionList">
+        {questions.map((question, index) => (
+          <QuestionLink question={question} key={index} />
+        ))}
+      </div>
     ) : (
       <div>Loading...</div>
     );
   }
 }
 
-const QuestionLink = ({
-  question: { question, published_at, choices, url }
-}) => (
-  <div>
-    <a href={url}>
-      <h3>{question}</h3>
-    </a>
-    <h4>{published_at}</h4>
-    <h4>{choices.length} choices</h4>
-  </div>
-);
+const QuestionLink = props => {
+  const { question, published_at, choices, url } = props.question;
+  return (
+    <div className="questionLink">
+      <Link to={{ pathname: url, state: { question: props.question } }}>
+        <h3>{question}</h3>
+      </Link>
+      <h4>
+        Published on <DateString dateString={published_at} />
+      </h4>
+      <h4>{choices.length} choices</h4>
+    </div>
+  );
+};
 
-const Question = ({ match }) => (
-  <div>
-    <h1>Questions Detail</h1>
-    <h3>{match.params.questionId}</h3>
-  </div>
-);
+const DateString = ({ dateString }) => new Date(dateString).toDateString();
 
+const Question = props => {
+  const {
+    question: { question, published_at, choices, url }
+  } = props.location.state;
+  return (
+    <div>
+      <h1>Questions Detail</h1>
+      <h3>Question: {question}</h3>
+    </div>
+  );
+};
 export default Polls;
