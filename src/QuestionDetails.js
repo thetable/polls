@@ -42,7 +42,7 @@ class QuestionDetails extends React.Component {
 
   render() {
     const {
-      question: { question, choices, url },
+      question: { question, choices },
       loading
     } = this.state;
     return (
