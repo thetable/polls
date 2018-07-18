@@ -15,7 +15,7 @@ const Polls = () => (
     <div className="app-container">
       <Navbar color="dark">
         <Link to="/">All Questions</Link>
-        <Button>
+        <Button outline color="primary">
           <Link to="/new">New Question</Link>
         </Button>
       </Navbar>
