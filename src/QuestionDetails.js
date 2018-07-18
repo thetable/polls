@@ -11,6 +11,8 @@ class QuestionDetails extends React.Component {
     };
   }
 
+  componentDidMount = () => this.refresh();
+
   onVote = async choice => {
     this.setState({ loading: true });
     return await fetch(`${API_BASE}${choice.url}`, { method: 'POST' })
