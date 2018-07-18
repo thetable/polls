@@ -12,6 +12,7 @@ class QuestionDetails extends React.Component {
   }
 
   onVote = async choice => {
+    this.setState({ loading: true });
     return await fetch(`${API_BASE}${choice.url}`, { method: 'POST' })
       .then(response => {
         return response.json();
@@ -38,18 +39,25 @@ class QuestionDetails extends React.Component {
   };
 
   render() {
-    const { question, choices, url } = this.state.question;
+    const {
+      question: { question, choices, url },
+      loading
+    } = this.state;
     return (
       <div className="question-details">
         <h1>Questions Detail</h1>
         <h3>Question: {question}</h3>
-        <ChoicesTable choices={choices} onVote={this.onVote} />
+        <ChoicesTable
+          choices={choices}
+          onVote={this.onVote}
+          loading={loading}
+        />
       </div>
     );
   }
 }
 
-const ChoicesTable = ({ choices, onVote }) => {
+const ChoicesTable = ({ choices, onVote, loading }) => {
   const totalVotes = choices.reduce((sum, choice) => sum + choice.votes, 0);
   return (
     <Table>
@@ -60,7 +68,7 @@ const ChoicesTable = ({ choices, onVote }) => {
             <td>{choice.votes}</td>
             <td>{Math.round((choice.votes / totalVotes) * 100 * 10) / 10}%</td>
             <td>
-              <VoteButton onVote={() => onVote(choice)} />
+              <VoteButton onVote={() => onVote(choice)} disabled={loading} />
             </td>
           </tr>
         ))}
@@ -69,6 +77,10 @@ const ChoicesTable = ({ choices, onVote }) => {
   );
 };
 
-const VoteButton = ({ onVote }) => <Button onClick={onVote}>Vote</Button>;
+const VoteButton = ({ onVote, disabled }) => (
+  <Button onClick={onVote} disabled={disabled}>
+    Vote
+  </Button>
+);
 
 export default QuestionDetails;
