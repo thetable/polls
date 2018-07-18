@@ -1,20 +1,19 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Card, Navbar, NavLink } from 'reactstrap';
 
 import QuestionDetails from './QuestionDetails';
 
 import './App.css';
 
+export const API_BASE = 'https://polls.apiblueprint.org';
+
 const Polls = () => (
   <Router>
-    <div>
-      <ul>
-        <li>
-          <Link to="/">All Questions</Link>
-        </li>
-      </ul>
-
-      <hr />
+    <div className="app-container">
+      <Navbar color="dark">
+        <Link to="/">All Questions</Link>
+      </Navbar>
 
       <Route exact path="/" component={Questions} />
       <Route path={`/questions/:questionId`} component={QuestionDetails} />
@@ -29,7 +28,7 @@ class Questions extends React.Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    fetch('https://polls.apiblueprint.org/questions')
+    fetch(`${API_BASE}/questions`)
       .then(response => {
         return response.json();
       })
@@ -45,7 +44,7 @@ class Questions extends React.Component {
   render() {
     const { questions } = this.state;
     return questions ? (
-      <div className="questionList">
+      <div className="question-list">
         {questions.map((question, index) => (
           <QuestionLink question={question} key={index} />
         ))}
@@ -59,15 +58,15 @@ class Questions extends React.Component {
 const QuestionLink = props => {
   const { question, published_at, choices, url } = props.question;
   return (
-    <div className="questionLink">
+    <Card className="question-link">
       <Link to={{ pathname: url, state: { question: props.question } }}>
         <h3>{question}</h3>
       </Link>
-      <h4>
+      <p>
         Published on <DateString dateString={published_at} />
-      </h4>
-      <h4>{choices.length} choices</h4>
-    </div>
+      </p>
+      <p>{choices.length} choices</p>
+    </Card>
   );
 };
 
