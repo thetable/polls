@@ -46,7 +46,7 @@ class QuestionDetails extends React.Component {
       loading
     } = this.state;
     return (
-      <div className="question-details">
+      <div className="margin">
         <h1>Questions Detail</h1>
         <h3>Question: {question}</h3>
         <ChoicesTable

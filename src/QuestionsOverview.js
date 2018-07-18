@@ -25,15 +25,18 @@ export default class QuestionsOverview extends React.Component {
   }
 
   render() {
-    const { questions } = this.state;
-    return questions ? (
-      <div className="question-list">
-        {questions.map((question, index) => (
-          <QuestionLink question={question} key={index} />
-        ))}
+    const { questions, loading } = this.state;
+    return (
+      <div className="margin">
+        <h1>Questions</h1>
+        <div className="question-list">
+          {questions &&
+            questions.map((question, index) => (
+              <QuestionLink question={question} key={index} />
+            ))}
+          <LoadingIndicator loading={loading} />
+        </div>
       </div>
-    ) : (
-      <div>Loading...</div>
     );
   }
 }
@@ -52,5 +55,8 @@ const QuestionLink = props => {
     </Card>
   );
 };
+
+const LoadingIndicator = ({ loading }) =>
+  loading ? <div>Loading...</div> : null;
 
 const DateString = ({ dateString }) => new Date(dateString).toDateString();

@@ -10,8 +10,8 @@
   height: 250px;
   width: 250px;
   padding: 10px;
-  margin: 10px;
+  margin: 0 10px 10px 0;
 }
-.question-details {
+.margin {
   margin: 10px;
 }
