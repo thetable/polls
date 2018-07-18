@@ -66,7 +66,11 @@ const ChoicesTable = ({ choices, onVote, loading }) => {
           <tr key={index}>
             <td>{choice.choice}</td>
             <td>{choice.votes}</td>
-            <td>{Math.round((choice.votes / totalVotes) * 100 * 10) / 10}%</td>
+            <td>
+              {totalVotes
+                ? Math.round((choice.votes / totalVotes) * 100 * 10) / 10
+                : 0}%
+            </td>
             <td>
               <VoteButton onVote={() => onVote(choice)} disabled={loading} />
             </td>
