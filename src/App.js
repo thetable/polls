@@ -1,5 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+
+import QuestionDetails from './QuestionDetails';
+
 import './App.css';
 
 const Polls = () => (
@@ -14,7 +17,7 @@ const Polls = () => (
       <hr />
 
       <Route exact path="/" component={Questions} />
-      <Route path={`/questions/:questionId`} component={Question} />
+      <Route path={`/questions/:questionId`} component={QuestionDetails} />
     </div>
   </Router>
 );
@@ -70,15 +73,4 @@ const QuestionLink = props => {
 
 const DateString = ({ dateString }) => new Date(dateString).toDateString();
 
-const Question = props => {
-  const {
-    question: { question, published_at, choices, url }
-  } = props.location.state;
-  return (
-    <div>
-      <h1>Questions Detail</h1>
-      <h3>Question: {question}</h3>
-    </div>
-  );
-};
 export default Polls;
